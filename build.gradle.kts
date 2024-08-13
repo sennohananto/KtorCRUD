@@ -31,6 +31,6 @@ tasks.test {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "com.example.ApplicationKt"  // Replace with your actual main class
+        attributes["Main-Class"] = "org.example.ApplicationKt"  // Replace with your actual main class
     }
 }
