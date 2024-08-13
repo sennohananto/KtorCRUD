@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core:2.3.0")
+    implementation("io.ktor:ktor-server-core:1.6.0")
     implementation("io.ktor:ktor-server-netty:1.6.0")
     implementation("io.ktor:ktor-jackson:1.6.0") // For JSON serialization
 //    implementation("io.ktor:ktor-server-freemarker:1.6.0")
