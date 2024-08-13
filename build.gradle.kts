@@ -34,3 +34,7 @@ tasks.withType<Jar> {
         attributes["Main-Class"] = "org.example.ApplicationKt"  // Replace with your actual main class
     }
 }
+
+application {
+    mainClass.set("org.example.ApplicationKt")  // Replace with your fully qualified main class name
+}
