@@ -11,8 +11,10 @@ repositories {
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk8"))
     implementation("io.ktor:ktor-server-core:1.6.0")
     implementation("io.ktor:ktor-server-netty:1.6.0")
+    implementation("io.ktor:ktor-server-host-common:1.6.0")
     implementation("io.ktor:ktor-jackson:1.6.0") // For JSON serialization
 //    implementation("io.ktor:ktor-server-freemarker:1.6.0")
     implementation("org.jetbrains.exposed:exposed-core:0.34.1") // Exposed ORM
@@ -31,8 +33,13 @@ tasks.test {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "org.example.ApplicationKt"  // Replace with your actual main class
+        attributes["Main-Class"] = "com.example.ApplicationKt"  // Replace with your fully qualified main class name
     }
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 application {
