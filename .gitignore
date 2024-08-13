@@ -38,9 +38,6 @@ build/
 # Ignore Kotlin build files
 out/
 
-# Ignore JAR files
-*.jar
-
 # Ignore .env files or other config files with sensitive data
 .env
 config.properties
