@@ -44,10 +44,10 @@ fun main() {
         password = dbPassword
     )
 
-//    // Create the table if it doesn't exist
-//    transaction {
-//        create(Users)
-//    }
+    // Create the table if it doesn't exist
+    transaction {
+        create(Users)
+    }
 
     embeddedServer(Netty, port = 8080) {
         module()
