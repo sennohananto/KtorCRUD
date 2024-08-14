@@ -75,7 +75,7 @@ fun Application.module() {
                         User(it[Users.id].value, it[Users.name], it[Users.email])
                     }
                 }
-                call.respond(users)
+                call.respond(ApiResponse(status = "Success","List of all users", data = users))
             }
 
             // GET /users/{id} - Retrieve a user by ID
@@ -109,6 +109,8 @@ fun Application.module() {
                     }.value
                 }
                 call.respond(mapOf("userId" to userId))
+
+
             }
 
             // PUT /users/{id} - Update an existing user
