@@ -33,7 +33,7 @@ tasks.test {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "com.example.ApplicationKt"  // Replace with your fully qualified main class name
+        attributes["Main-Class"] = "org.example.ApplicationKt"  // Replace with your fully qualified main class name
     }
     from({
         configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
