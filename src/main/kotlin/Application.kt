@@ -26,12 +26,15 @@ object Users : IntIdTable() {
 fun main() {
 
     // Load .env file
-    val dotenv = dotenv()
-
+    val dotenv = try {
+        dotenv()
+    } catch (e: Exception) {
+        null
+    }
     // Retrieve values
-    val dbUrl = dotenv["DB_URL"]
-    val dbUser = dotenv["DB_USER"]
-    val dbPassword = dotenv["DB_PASSWORD"]
+    val dbUrl = dotenv?.get("DB_URL") ?: System.getenv("DB_URL") ?: "defaultURL"
+    val dbUser = dotenv?.get("DB_USERNAME") ?: System.getenv("DB_USERNAME") ?: "defaultUser"
+    val dbPassword = dotenv?.get("DB_PASSWORD") ?: System.getenv("DB_PASSWORD") ?: "defaultPassword"
 
     // Initialize the database connection
     Database.connect(
