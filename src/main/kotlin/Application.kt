@@ -93,9 +93,9 @@ fun Application.module() {
                 }
 
                 if (user == null) {
-                    call.respond(mapOf("error" to "User not found"))
+                    call.respond(ApiResponse(status = "Failed","User ID not found", data = null))
                 } else {
-                    call.respond(user)
+                    call.respond(ApiResponse(status = "Success","User data retrieved successfully", data = user))
                 }
             }
 
@@ -108,16 +108,14 @@ fun Application.module() {
                         it[email] = newUser.email
                     }.value
                 }
-                call.respond(mapOf("userId" to userId))
-
-
+                call.respond(ApiResponse(status = "Success","User added successfully", data = newUser))
             }
 
             // PUT /users/{id} - Update an existing user
             put("/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
-                    call.respond(mapOf("error" to "Invalid user ID"))
+                    call.respond(ApiResponse(status = "Failed","Invalid User ID", data = null))
                     return@put
                 }
 
@@ -128,21 +126,23 @@ fun Application.module() {
                         it[email] = updatedUser.email
                     }
                 }
-                call.respond(mapOf("status" to "User updated"))
+
+                call.respond(ApiResponse(status = "Success","User edited successfully", data = updatedUser))
             }
 
             // DELETE /users/{id} - Delete a user
             delete("/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull()
                 if (id == null) {
-                    call.respond(mapOf("error" to "Invalid user ID"))
+
+                    call.respond(ApiResponse(status = "Failed","Invalid User ID", data = null))
                     return@delete
                 }
 
                 transaction {
                     Users.deleteWhere { Users.id eq id }
                 }
-                call.respond(mapOf("status" to "User deleted"))
+                call.respond(ApiResponse(status = "Success","User with ID $id deleted successfully", data = null))
             }
         }
     }
