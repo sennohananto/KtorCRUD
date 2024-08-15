@@ -9,6 +9,7 @@ import io.ktor.server.routing.*
 import io.ktor.server.response.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.request.*
@@ -71,6 +72,12 @@ fun Application.module() {
         }
     }
 
+    install(CORS) {
+        anyHost()
+        allowHeader(HttpHeaders.ContentType)
+    }
+
+
     routing {
         swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml") {
             version = "4.15.5"
@@ -112,12 +119,12 @@ fun Application.module() {
             // POST /users - Create a new user
             post {
                 val newUser = call.receive<User>()
-//                val userId = transaction {
-//                    Users.insertAndGetId {
-//                        it[name] = newUser.name
-//                        it[email] = newUser.email
-//                    }.value
-//                }
+                val userId = transaction {
+                    Users.insertAndGetId {
+                        it[name] = newUser.name
+                        it[email] = newUser.email
+                    }.value
+                }
                 call.respond(ApiResponse(status = "Success","User added successfully", data = newUser))
             }
 
@@ -157,3 +164,7 @@ fun Application.module() {
         }
     }
 }
+
+//fun Application.configureSwagger(){
+//    SwaggerConfig().
+//}
