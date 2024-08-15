@@ -1,20 +1,23 @@
 package org.example
 
 import io.github.cdimascio.dotenv.dotenv
-import io.ktor.application.*
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.StatusPages
-import io.ktor.jackson.jackson
-import io.ktor.request.receive
-import io.ktor.response.respond
-import io.ktor.routing.*
+import io.ktor.http.*
+import io.ktor.server.application.*
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.routing.*
+import io.ktor.server.response.*
+import io.ktor.serialization.jackson.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.plugins.swagger.*
+import io.ktor.server.request.*
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.SchemaUtils.create
-import org.jetbrains.exposed.sql.SchemaUtils.drop
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.transactions.transaction
+
 
 data class User(val id: Int, val name: String, val email: String)
 
@@ -60,12 +63,19 @@ fun Application.module() {
     }
 
     install(StatusPages) {
-        exception<Throwable> { cause ->
-            call.respond(mapOf("error" to cause.localizedMessage))
+        exception<Throwable> { call, cause ->
+            call.respond(HttpStatusCode.InternalServerError, "Internal server error, $cause")
+        }
+        status(HttpStatusCode.NotFound) { call, status ->
+            call.respond(status, "Page not found")
         }
     }
 
     routing {
+        swaggerUI(path = "swagger", swaggerFile = "openapi/documentation.yaml") {
+            version = "4.15.5"
+        }
+
         route("/users") {
 
             // GET /users - Retrieve all users
@@ -102,12 +112,12 @@ fun Application.module() {
             // POST /users - Create a new user
             post {
                 val newUser = call.receive<User>()
-                val userId = transaction {
-                    Users.insertAndGetId {
-                        it[name] = newUser.name
-                        it[email] = newUser.email
-                    }.value
-                }
+//                val userId = transaction {
+//                    Users.insertAndGetId {
+//                        it[name] = newUser.name
+//                        it[email] = newUser.email
+//                    }.value
+//                }
                 call.respond(ApiResponse(status = "Success","User added successfully", data = newUser))
             }
 

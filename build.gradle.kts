@@ -11,20 +11,21 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("io.ktor:ktor-server-core:1.6.0")
-    implementation("io.ktor:ktor-server-netty:1.6.0")
-    implementation("io.ktor:ktor-server-host-common:1.6.0")
-    implementation("io.ktor:ktor-jackson:1.6.0") // For JSON serialization
-//    implementation("io.ktor:ktor-server-freemarker:1.6.0")
-    implementation("org.jetbrains.exposed:exposed-core:0.34.1") // Exposed ORM
-    implementation("org.jetbrains.exposed:exposed-dao:0.34.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.34.1")
-    implementation("mysql:mysql-connector-java:8.0.33") // MySQL JDBC driver
-    implementation("ch.qos.logback:logback-classic:1.2.3") // Logging
-    implementation("io.github.cdimascio:dotenv-kotlin:6.3.1")
-    testImplementation("io.ktor:ktor-server-tests:1.6.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.5.30")
+    implementation("io.ktor:ktor-server-core:2.3.0")
+    implementation("io.ktor:ktor-server-netty:2.3.0")
+    implementation("io.ktor:ktor-server-status-pages:2.3.0")
+    implementation("io.ktor:ktor-server-content-negotiation:2.3.0")
+    implementation("io.ktor:ktor-serialization-jackson:2.3.0")
+    implementation("io.ktor:ktor-server-swagger:2.3.0")
+    implementation("org.jetbrains.exposed:exposed-core:0.41.1")
+    implementation("org.jetbrains.exposed:exposed-dao:0.41.1")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.41.1")
+    implementation("mysql:mysql-connector-java:8.0.33")
+    implementation("ch.qos.logback:logback-classic:1.2.11")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.0")
+    testImplementation("io.ktor:ktor-server-tests:2.3.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.0")
+
 }
 
 tasks.test {
